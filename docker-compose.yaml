@@ -1,0 +1,58 @@
+services:
+  db:
+    image: mysql:8.4
+    container_name: db
+    environment:
+      MYSQL_ROOT_PASSWORD: supersecret
+      MYSQL_DATABASE: ghostdb
+      MYSQL_USER: ghost
+      MYSQL_PASSWORD: ghostpass
+    volumes:
+      - db_data:/var/lib/mysql
+    ports:
+      - "3306:3306"   # opcionális, ha kívülről is kell DB
+    networks:
+      - ghostnet
+
+  ghost1:
+    image: ghost:5-alpine
+    container_name: ghost1
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      url: http://NGINX_SERVER_IP/   # ide írd a 4. szerver IP-jét vagy domainjét
+      database__client: mysql
+      database__connection__host: db
+      database__connection__user: dkecskes
+      database__connection__password: Kiscica123
+      database__connection__database: ghostdb
+    ports:
+      - "8081:2368"   # 1. 8081 porton
+    networks:
+      - ghostnet
+
+  ghost2:
+    image: ghost:5-alpine
+    container_name: ghost2
+    depends_on:
+      db:
+        condition: service_healthy
+    environment:
+      url: http://NGINX_SERVER_IP/
+      database__client: mysql
+      database__connection__host: db
+      database__connection__user: dkecskes
+      database__connection__password: Kiscica123
+      database__connection__database: ghostdb
+    ports:
+      - "8082:2368"   # 2. 8082 porton
+    networks:
+      - ghostnet
+
+volumes:
+  db_data:
+
+networks:
+  ghostnet:
+    driver: bridge

@@ -11,6 +11,11 @@ services:
       - db_data:/var/lib/mysql
     ports:
       - "3306:3306"   # opcionális, ha kívülről is kell DB
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-psupersecret"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
     networks:
       - ghostnet
 

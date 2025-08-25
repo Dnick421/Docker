@@ -3,10 +3,10 @@ services:
     image: mysql:8.4
     container_name: db
     environment:
-      MYSQL_ROOT_PASSWORD: supersecret
+      MYSQL_ROOT_PASSWORD: Nagycica123
       MYSQL_DATABASE: ghostdb
-      MYSQL_USER: ghost
-      MYSQL_PASSWORD: ghostpass
+      MYSQL_USER: dkecskes
+      MYSQL_PASSWORD: Kiscica123
     volumes:
       - db_data:/var/lib/mysql
     ports:
@@ -26,7 +26,7 @@ services:
       db:
         condition: service_healthy
     environment:
-      url: http://NGINX_SERVER_IP/   # ide írd a 4. szerver IP-jét vagy domainjét
+      url: 10.116.251.108   # ide írd a 4. szerver IP-jét vagy domainjét
       database__client: mysql
       database__connection__host: db
       database__connection__user: dkecskes
@@ -44,7 +44,7 @@ services:
       db:
         condition: service_healthy
     environment:
-      url: http://NGINX_SERVER_IP/
+      url: 10.116.251.108
       database__client: mysql
       database__connection__host: db
       database__connection__user: dkecskes
